@@ -1,0 +1,886 @@
+/* Ronginus - AI Debate Plugin Styles (Gemini Hub) */
+
+/* ============================================
+   CSS Custom Properties (Light / Dark)
+   ============================================ */
+.ronginus-debate-container {
+  --rg-bg-primary: #ffffff;
+  --rg-bg-secondary: #f5f5f5;
+  --rg-border: #e0e0e0;
+  --rg-text: #1a1a1a;
+  --rg-text-muted: #6b7280;
+  --rg-accent: #4285f4;
+  --rg-accent-hover: rgba(66, 133, 244, 0.2);
+  --rg-error: #dc2626;
+  --rg-error-bg: #dc2626;
+  --rg-success-bg: #16a34a;
+  --rg-hover-bg: #ebebeb;
+  --rg-gemini-color: #4285f4;
+  --rg-user-color: #8b5cf6;
+}
+
+.dark .ronginus-debate-container,
+.ronginus-debate-container.dark {
+  --rg-bg-primary: #1e1e1e;
+  --rg-bg-secondary: #2a2a2a;
+  --rg-border: #3a3a3a;
+  --rg-text: #e0e0e0;
+  --rg-text-muted: #9ca3af;
+  --rg-accent: #6ea8fe;
+  --rg-accent-hover: rgba(110, 168, 254, 0.2);
+  --rg-error: #f87171;
+  --rg-error-bg: #991b1b;
+  --rg-success-bg: #166534;
+  --rg-hover-bg: #333333;
+  --rg-gemini-color: #6ea8fe;
+  --rg-user-color: #a78bfa;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ronginus-debate-container:not(.light) {
+    --rg-bg-primary: #1e1e1e;
+    --rg-bg-secondary: #2a2a2a;
+    --rg-border: #3a3a3a;
+    --rg-text: #e0e0e0;
+    --rg-text-muted: #9ca3af;
+    --rg-accent: #6ea8fe;
+    --rg-accent-hover: rgba(110, 168, 254, 0.2);
+    --rg-error: #f87171;
+    --rg-error-bg: #991b1b;
+    --rg-success-bg: #166534;
+    --rg-hover-bg: #333333;
+    --rg-gemini-color: #6ea8fe;
+    --rg-user-color: #a78bfa;
+  }
+}
+
+/* ============================================
+   Container & Panel
+   ============================================ */
+.ronginus-debate-container {
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+  color: var(--rg-text);
+  background: var(--rg-bg-primary);
+}
+
+.ronginus-panel {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   Header
+   ============================================ */
+.ronginus-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--rg-border);
+}
+
+.ronginus-header h2 {
+  margin: 0 0 12px 0;
+  font-size: 1.8em;
+  font-weight: 700;
+}
+
+.ronginus-subtitle {
+  color: var(--rg-text-muted);
+  margin: 0;
+  font-size: 1em;
+}
+
+.ronginus-header-theme {
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: var(--rg-bg-secondary);
+  border-radius: 8px;
+  border-left: 4px solid var(--rg-accent);
+  text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 1.05em;
+  line-height: 1.6;
+  user-select: text;
+}
+
+/* ============================================
+   Input Section
+   ============================================ */
+.ronginus-input-section {
+  background: var(--rg-bg-secondary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.ronginus-input-group {
+  margin-bottom: 24px;
+}
+
+.ronginus-input-group:last-child {
+  margin-bottom: 0;
+}
+
+.ronginus-input-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.ronginus-theme-input {
+  width: 100%;
+  resize: vertical;
+  font-family: inherit;
+  padding: 14px 16px;
+  border: 1px solid var(--rg-border);
+  border-radius: 8px;
+  background: var(--rg-bg-primary);
+  color: var(--rg-text);
+  font-size: 1em;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.ronginus-theme-input:focus {
+  border-color: var(--rg-accent);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--rg-accent-hover);
+}
+
+.ronginus-turns-input {
+  width: 100px;
+  padding: 12px 16px;
+  border: 1px solid var(--rg-border);
+  border-radius: 8px;
+  background: var(--rg-bg-primary);
+  color: var(--rg-text);
+  font-size: 1em;
+}
+
+/* mod-cta: primary action button */
+.mod-cta {
+  background: var(--rg-accent);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.mod-cta:hover {
+  opacity: 0.9;
+}
+
+.mod-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ronginus-start-button {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.ronginus-warning {
+  color: var(--rg-error);
+  font-size: 0.9em;
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* ============================================
+   Participants Section
+   ============================================ */
+.ronginus-participants-section {
+  margin-bottom: 28px;
+  background: var(--rg-bg-primary);
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid var(--rg-border);
+}
+
+.ronginus-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rg-border);
+}
+
+.ronginus-section-header label {
+  font-weight: 700;
+  font-size: 1.05em;
+  margin: 0;
+}
+
+.ronginus-add-button {
+  padding: 8px 16px;
+  background: var(--rg-accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.ronginus-add-button:hover {
+  opacity: 0.85;
+}
+
+.ronginus-participants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ronginus-participant-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--rg-bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--rg-border);
+}
+
+.ronginus-participant-item .ronginus-cli-badge {
+  flex-shrink: 0;
+  min-width: 80px;
+  text-align: center;
+}
+
+.ronginus-role-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--rg-border);
+  border-radius: 6px;
+  background: var(--rg-bg-primary);
+  color: var(--rg-text);
+  font-size: 0.95em;
+}
+
+.ronginus-role-input:focus {
+  border-color: var(--rg-accent);
+  outline: none;
+}
+
+.ronginus-remove-button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--rg-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2em;
+  color: var(--rg-text-muted);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.ronginus-remove-button:hover {
+  background: var(--rg-error-bg);
+  border-color: var(--rg-error-bg);
+  color: white;
+}
+
+.ronginus-empty-list {
+  color: var(--rg-text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+}
+
+/* Add Dialog */
+.ronginus-add-dialog {
+  margin-top: 16px;
+  padding: 20px;
+  background: var(--rg-bg-secondary);
+  border-radius: 8px;
+  border: 2px solid var(--rg-accent);
+}
+
+.ronginus-add-dialog h4 {
+  margin: 0 0 16px 0;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.ronginus-add-dialog .ronginus-input-group {
+  margin-bottom: 16px;
+}
+
+.ronginus-add-dialog select,
+.ronginus-add-dialog input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--rg-border);
+  border-radius: 6px;
+  background: var(--rg-bg-primary);
+  color: var(--rg-text);
+  font-size: 1em;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.ronginus-add-dialog select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.ronginus-add-dialog select option {
+  padding: 12px;
+  font-size: 1em;
+}
+
+.ronginus-dialog-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.ronginus-dialog-buttons button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95em;
+  background: var(--rg-bg-secondary);
+  color: var(--rg-text);
+  border: 1px solid var(--rg-border);
+}
+
+.ronginus-dialog-buttons button:hover {
+  background: var(--rg-hover-bg);
+}
+
+.ronginus-dialog-buttons button.mod-cta {
+  background: var(--rg-accent);
+  color: #ffffff;
+  border: none;
+}
+
+/* ============================================
+   User Input Section
+   ============================================ */
+.ronginus-user-input-section,
+.ronginus-user-vote-section {
+  background: linear-gradient(135deg, var(--rg-bg-secondary) 0%, var(--rg-bg-primary) 100%);
+  border: 2px solid var(--rg-accent);
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 32px;
+}
+
+.ronginus-user-input-section h3,
+.ronginus-user-vote-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.3em;
+  color: var(--rg-accent);
+}
+
+.ronginus-user-role {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: var(--rg-bg-secondary);
+  border-radius: 6px;
+  font-size: 1em;
+}
+
+.ronginus-user-input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--rg-border);
+  border-radius: 8px;
+  background: var(--rg-bg-primary);
+  color: var(--rg-text);
+  font-size: 1em;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 150px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.ronginus-user-input:focus {
+  border-color: var(--rg-accent);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--rg-accent-hover);
+}
+
+.ronginus-vote-select,
+.ronginus-vote-reason-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--rg-border);
+  border-radius: 8px;
+  background: var(--rg-bg-primary);
+  color: var(--rg-text);
+  font-size: 1em;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.ronginus-vote-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 18px;
+  padding-right: 44px;
+  cursor: pointer;
+}
+
+.ronginus-vote-select option {
+  padding: 14px;
+  font-size: 1em;
+}
+
+.ronginus-submit-button {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+/* ============================================
+   Progress Section
+   ============================================ */
+.ronginus-progress-section {
+  background: var(--rg-bg-secondary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.ronginus-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ronginus-phase {
+  font-weight: 700;
+  font-size: 1.1em;
+  color: var(--rg-accent);
+}
+
+.ronginus-turn-info {
+  color: var(--rg-text-muted);
+  font-size: 1em;
+}
+
+.ronginus-stop-button {
+  width: 100%;
+  padding: 14px;
+  background: var(--rg-error-bg);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.ronginus-stop-button:hover {
+  opacity: 0.9;
+}
+
+/* ============================================
+   Response Grid & Cards
+   ============================================ */
+.ronginus-response-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.ronginus-response-card {
+  background: var(--rg-bg-primary);
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 5px solid var(--rg-text-muted);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.ronginus-response-card.gemini {
+  border-left-color: var(--rg-gemini-color);
+}
+
+.ronginus-response-card.user {
+  border-left-color: var(--rg-user-color);
+}
+
+.ronginus-response-card.conclusion {
+  border-width: 5px;
+  background: linear-gradient(135deg, var(--rg-bg-primary) 0%, var(--rg-bg-secondary) 100%);
+}
+
+.ronginus-response-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rg-border);
+}
+
+.ronginus-cli-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: white;
+}
+
+.ronginus-cli-badge.gemini {
+  background: #4285f4;
+}
+
+.ronginus-cli-badge.user {
+  background: #8b5cf6;
+}
+
+.ronginus-cli-badge.large {
+  font-size: 1.2em;
+  padding: 12px 24px;
+}
+
+.ronginus-cli-badge.small {
+  font-size: 0.8em;
+  padding: 4px 10px;
+}
+
+.ronginus-thinking-indicator {
+  color: var(--rg-accent);
+  animation: pulse 1s infinite;
+  font-size: 1.2em;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.ronginus-response-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.95em;
+  line-height: 1.7;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 8px;
+  user-select: text;
+}
+
+.ronginus-waiting {
+  color: var(--rg-text-muted);
+  font-style: italic;
+}
+
+.ronginus-conclusion-badge {
+  font-size: 0.8em;
+  color: var(--rg-text-muted);
+  background: var(--rg-bg-secondary);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* ============================================
+   Sections (Turns, Conclusions, Votes, etc.)
+   ============================================ */
+.ronginus-turns-section,
+.ronginus-conclusions-section,
+.ronginus-votes-section,
+.ronginus-streaming-section,
+.ronginus-winner-section {
+  margin-bottom: 36px;
+}
+
+.ronginus-turns-section h3,
+.ronginus-conclusions-section h3,
+.ronginus-votes-section h3,
+.ronginus-streaming-section h3,
+.ronginus-winner-section h3 {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--rg-border);
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+/* ============================================
+   Turn Display
+   ============================================ */
+.ronginus-turn {
+  margin-bottom: 24px;
+}
+
+.ronginus-turn-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: var(--rg-bg-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: background 0.2s;
+}
+
+.ronginus-turn-header:hover {
+  background: var(--rg-hover-bg);
+}
+
+.ronginus-turn-number {
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
+.ronginus-expand-icon {
+  color: var(--rg-text-muted);
+  font-size: 0.9em;
+}
+
+/* ============================================
+   Votes Section
+   ============================================ */
+.ronginus-votes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ronginus-vote-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--rg-bg-secondary);
+  border-radius: 8px;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+.ronginus-vote-arrow {
+  color: var(--rg-accent);
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.ronginus-vote-reason {
+  color: var(--rg-text-muted);
+  font-size: 0.9em;
+  flex-basis: 100%;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--rg-border);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: visible;
+  display: block;
+  width: 100%;
+}
+
+/* ============================================
+   Winner Section
+   ============================================ */
+.ronginus-winner-card {
+  background: linear-gradient(135deg, var(--rg-bg-secondary) 0%, var(--rg-bg-primary) 100%);
+  border-radius: 12px;
+  padding: 28px;
+  text-align: center;
+  border: 3px solid var(--rg-text-muted);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.ronginus-winner-card.gemini {
+  border-color: #4285f4;
+}
+
+.ronginus-winner-card.user {
+  border-color: #8b5cf6;
+}
+
+.ronginus-final-conclusion {
+  margin-top: 20px;
+  text-align: left;
+  white-space: pre-wrap;
+  line-height: 1.7;
+  font-size: 1em;
+  padding: 20px;
+  background: var(--rg-bg-primary);
+  border-radius: 8px;
+  user-select: text;
+}
+
+.ronginus-draw-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ============================================
+   Error Section
+   ============================================ */
+.ronginus-error-section {
+  margin-bottom: 32px;
+}
+
+.ronginus-error-message {
+  padding: 18px 20px;
+  background: var(--rg-error-bg);
+  color: white;
+  border-radius: 8px;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.ronginus-error {
+  color: var(--rg-error);
+}
+
+/* ============================================
+   Actions Section
+   ============================================ */
+.ronginus-actions-section {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 2px solid var(--rg-border);
+}
+
+.ronginus-save-button,
+.ronginus-reset-button {
+  flex: 1;
+  padding: 16px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.05em;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.ronginus-reset-button {
+  background: var(--rg-bg-secondary);
+  color: var(--rg-text);
+  border: 2px solid var(--rg-border);
+}
+
+.ronginus-reset-button:hover {
+  background: var(--rg-hover-bg);
+  border-color: var(--rg-text-muted);
+}
+
+/* ============================================
+   Settings
+   ============================================ */
+.ronginus-vote-prompt-note {
+  color: var(--rg-text-muted);
+  font-size: 0.85em;
+  margin: -8px 0 16px 0;
+  padding: 10px 14px;
+  background: var(--rg-bg-secondary);
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.ronginus-settings-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ronginus-settings-label-row label {
+  margin-bottom: 0;
+}
+
+.ronginus-reset-default-button {
+  padding: 4px 10px;
+  font-size: 0.8em;
+  background: transparent;
+  color: var(--rg-text-muted);
+  border: 1px solid var(--rg-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 4px;
+}
+
+.ronginus-reset-default-button:hover {
+  background: var(--rg-hover-bg);
+  color: var(--rg-text);
+  border-color: var(--rg-text-muted);
+}
+
+.ronginus-settings-textarea {
+  width: 100%;
+  min-height: 120px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+.ronginus-response-content::-webkit-scrollbar,
+.ronginus-debate-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ronginus-response-content::-webkit-scrollbar-track,
+.ronginus-debate-container::-webkit-scrollbar-track {
+  background: var(--rg-bg-secondary);
+  border-radius: 4px;
+}
+
+.ronginus-response-content::-webkit-scrollbar-thumb,
+.ronginus-debate-container::-webkit-scrollbar-thumb {
+  background: var(--rg-border);
+  border-radius: 4px;
+}
+
+.ronginus-response-content::-webkit-scrollbar-thumb:hover,
+.ronginus-debate-container::-webkit-scrollbar-thumb:hover {
+  background: var(--rg-text-muted);
+}
+
+/* ============================================
+   Text Selection
+   ============================================ */
+.ronginus-debate-container {
+  user-select: text;
+}
+
+.ronginus-response-card,
+.ronginus-winner-card,
+.ronginus-vote-reason {
+  user-select: text;
+  cursor: text;
+}

@@ -1,0 +1,8 @@
+{
+  "id": "ronginus",
+  "name": "Ronginus - AI Debate",
+  "version": "2.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "AI debate plugin: multiple Gemini participants with different roles discuss themes in turns, then vote for the best conclusion.",
+  "author": "takeshy"
+}
