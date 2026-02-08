@@ -31,6 +31,12 @@ npm run build
 
 This produces `main.js`, `styles.css`, and `manifest.json` for a GitHub Release.
 
+## Screenshots
+
+| Setup | Discussion | Voting | Result |
+|:---:|:---:|:---:|:---:|
+| ![Setup](debate_prepare.png) | ![Discussion](debate_start.png) | ![Voting](voting.png) | ![Result](result.png) |
+
 ## Usage
 
 1. After installation, the **AI Debate** panel appears in the right sidebar.
