@@ -1,6 +1,6 @@
-# Ronginus - Gemini Hub 用 AIディベートプラグイン
+# Ronginus - GemiHub 用 AIディベートプラグイン
 
-Ronginus は [Gemini Hub](https://github.com/takeshy/gemini-hub) のプラグインで、異なる役割を持つ複数の Gemini AI 参加者による構造化されたディベートを実現します。参加者はテーマについてターン制で議論し、結論を出した後、最も優れた結論に投票します。
+Ronginus は [GemiHub](https://github.com/takeshy/gemihub) のプラグインで、異なる役割を持つ複数の Gemini AI 参加者による構造化されたディベートを実現します。参加者はテーマについてターン制で議論し、結論を出した後、最も優れた結論に投票します。
 
 ## 特徴
 
@@ -14,9 +14,9 @@ Ronginus は [Gemini Hub](https://github.com/takeshy/gemini-hub) のプラグイ
 
 ## インストール
 
-### Gemini Hub の設定画面から
+### GemiHub の設定画面から
 
-1. Gemini Hub の設定 > プラグインタブを開く
+1. GemiHub の設定 > プラグインタブを開く
 2. `takeshy/hub-ronginus` と入力してインストールをクリック
 3. プラグインを有効化
 
@@ -62,7 +62,7 @@ npm run build
 
 ## プラグイン API の利用
 
-このプラグインは以下の Gemini Hub Plugin API を使用しています：
+このプラグインは以下の GemiHub Plugin API を使用しています：
 
 - `api.registerView()` — ディベートパネルをサイドバービューとして登録
 - `api.gemini.chat()` — 役割別のシステムプロンプト付きで Gemini にメッセージを送信

@@ -1,5 +1,5 @@
 /**
- * Internationalization (i18n) for Ronginus (Gemini Hub)
+ * Internationalization (i18n) for Ronginus (GemiHub)
  */
 
 export type Locale = "en" | "ja";

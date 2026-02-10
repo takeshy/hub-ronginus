@@ -1,5 +1,5 @@
 /**
- * Debate Engine for Ronginus (Gemini Hub)
+ * Debate Engine for Ronginus (GemiHub)
  * Uses PluginAPI.gemini.chat(this.language) instead of CLI providers
  */
 

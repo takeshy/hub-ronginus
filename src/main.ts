@@ -1,5 +1,5 @@
 /**
- * Ronginus - AI Debate Plugin for Gemini Hub
+ * Ronginus - AI Debate Plugin for GemiHub
  *
  * Multiple Gemini participants with different roles discuss a theme
  * in multiple turns, draw conclusions, and vote for the best.

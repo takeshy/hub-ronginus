@@ -1,5 +1,5 @@
 /**
- * Types for Ronginus - AI Debate Plugin (Gemini Hub)
+ * Types for Ronginus - AI Debate Plugin (GemiHub)
  */
 
 // Participant types: "gemini" uses the API, "user" provides manual input
