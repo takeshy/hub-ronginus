@@ -58,7 +58,7 @@
    Container & Panel
    ============================================ */
 .ronginus-debate-container {
-  padding: 24px;
+  padding: 14px;
   height: 100%;
   overflow-y: auto;
   color: var(--rg-text);
@@ -75,14 +75,14 @@
    ============================================ */
 .ronginus-header {
   text-align: center;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 2px solid var(--rg-border);
 }
 
 .ronginus-header h2 {
-  margin: 0 0 12px 0;
-  font-size: 1.8em;
+  margin: 0 0 6px 0;
+  font-size: 1.35em;
   font-weight: 700;
 }
 
@@ -94,14 +94,14 @@
 
 .ronginus-header-theme {
   margin-top: 16px;
-  padding: 16px 20px;
+  padding: 10px 14px;
   background: var(--rg-bg-secondary);
   border-radius: 8px;
   border-left: 4px solid var(--rg-accent);
   text-align: left;
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-size: 1.05em;
+  font-size: 0.95em;
   line-height: 1.6;
   user-select: text;
 }
@@ -111,13 +111,13 @@
    ============================================ */
 .ronginus-input-section {
   background: var(--rg-bg-secondary);
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 32px;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 16px;
 }
 
 .ronginus-input-group {
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .ronginus-input-group:last-child {
@@ -127,7 +127,7 @@
 .ronginus-input-group label {
   display: block;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   font-size: 1em;
 }
 
@@ -135,7 +135,7 @@
   width: 100%;
   resize: vertical;
   font-family: inherit;
-  padding: 14px 16px;
+  padding: 8px 10px;
   border: 1px solid var(--rg-border);
   border-radius: 8px;
   background: var(--rg-bg-primary);
@@ -153,7 +153,7 @@
 
 .ronginus-turns-input {
   width: 100px;
-  padding: 12px 16px;
+  padding: 8px 10px;
   border: 1px solid var(--rg-border);
   border-radius: 8px;
   background: var(--rg-bg-primary);
@@ -181,11 +181,11 @@
 
 .ronginus-start-button {
   width: 100%;
-  padding: 16px 24px;
-  font-size: 1.1em;
+  padding: 10px 16px;
+  font-size: 1em;
   font-weight: 600;
   border-radius: 8px;
-  margin-top: 16px;
+  margin-top: 10px;
 }
 
 .ronginus-warning {
@@ -199,10 +199,10 @@
    Participants Section
    ============================================ */
 .ronginus-participants-section {
-  margin-bottom: 28px;
+  margin-bottom: 16px;
   background: var(--rg-bg-primary);
   border-radius: 8px;
-  padding: 20px;
+  padding: 12px;
   border: 1px solid var(--rg-border);
 }
 
@@ -210,25 +210,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--rg-border);
 }
 
 .ronginus-section-header label {
   font-weight: 700;
-  font-size: 1.05em;
+  font-size: 0.95em;
   margin: 0;
 }
 
 .ronginus-add-button {
-  padding: 8px 16px;
+  padding: 6px 12px;
   background: var(--rg-accent);
   color: #ffffff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9em;
+  font-size: 0.85em;
   font-weight: 500;
   transition: opacity 0.2s;
 }
@@ -246,8 +246,8 @@
 .ronginus-participant-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
+  gap: 8px;
+  padding: 8px 10px;
   background: var(--rg-bg-secondary);
   border-radius: 8px;
   border: 1px solid var(--rg-border);
@@ -255,18 +255,18 @@
 
 .ronginus-participant-item .ronginus-cli-badge {
   flex-shrink: 0;
-  min-width: 80px;
+  min-width: 64px;
   text-align: center;
 }
 
 .ronginus-role-input {
   flex: 1;
-  padding: 10px 14px;
+  padding: 6px 8px;
   border: 1px solid var(--rg-border);
   border-radius: 6px;
   background: var(--rg-bg-primary);
   color: var(--rg-text);
-  font-size: 0.95em;
+  font-size: 0.85em;
 }
 
 .ronginus-role-input:focus {
@@ -275,8 +275,8 @@
 }
 
 .ronginus-remove-button {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   padding: 0;
   background: transparent;
   border: 1px solid var(--rg-border);
@@ -298,39 +298,39 @@
   color: var(--rg-text-muted);
   font-style: italic;
   text-align: center;
-  padding: 20px;
+  padding: 12px;
   margin: 0;
 }
 
 /* Add Dialog */
 .ronginus-add-dialog {
-  margin-top: 16px;
-  padding: 20px;
+  margin-top: 10px;
+  padding: 12px;
   background: var(--rg-bg-secondary);
   border-radius: 8px;
   border: 2px solid var(--rg-accent);
 }
 
 .ronginus-add-dialog h4 {
-  margin: 0 0 16px 0;
+  margin: 0 0 10px 0;
   font-size: 1em;
   font-weight: 600;
 }
 
 .ronginus-add-dialog .ronginus-input-group {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .ronginus-add-dialog select,
 .ronginus-add-dialog input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 8px 10px;
   border: 1px solid var(--rg-border);
   border-radius: 6px;
   background: var(--rg-bg-primary);
   color: var(--rg-text);
   font-size: 1em;
-  min-height: 44px;
+  min-height: 36px;
   box-sizing: border-box;
 }
 
@@ -353,16 +353,16 @@
 
 .ronginus-dialog-buttons {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .ronginus-dialog-buttons button {
-  padding: 10px 20px;
+  padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.95em;
+  font-size: 0.85em;
   background: var(--rg-bg-secondary);
   color: var(--rg-text);
   border: 1px solid var(--rg-border);
@@ -385,21 +385,21 @@
 .ronginus-user-vote-section {
   background: linear-gradient(135deg, var(--rg-bg-secondary) 0%, var(--rg-bg-primary) 100%);
   border: 2px solid var(--rg-accent);
-  border-radius: 12px;
-  padding: 28px;
-  margin-bottom: 32px;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
 }
 
 .ronginus-user-input-section h3,
 .ronginus-user-vote-section h3 {
-  margin: 0 0 20px 0;
-  font-size: 1.3em;
+  margin: 0 0 12px 0;
+  font-size: 1.1em;
   color: var(--rg-accent);
 }
 
 .ronginus-user-role {
-  margin-bottom: 16px;
-  padding: 12px 16px;
+  margin-bottom: 10px;
+  padding: 8px 12px;
   background: var(--rg-bg-secondary);
   border-radius: 6px;
   font-size: 1em;
@@ -407,7 +407,7 @@
 
 .ronginus-user-input {
   width: 100%;
-  padding: 16px;
+  padding: 10px;
   border: 1px solid var(--rg-border);
   border-radius: 8px;
   background: var(--rg-bg-primary);
@@ -415,8 +415,8 @@
   font-size: 1em;
   line-height: 1.6;
   resize: vertical;
-  min-height: 150px;
-  margin-bottom: 16px;
+  min-height: 100px;
+  margin-bottom: 10px;
   box-sizing: border-box;
 }
 
@@ -429,13 +429,13 @@
 .ronginus-vote-select,
 .ronginus-vote-reason-input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 8px 10px;
   border: 1px solid var(--rg-border);
   border-radius: 8px;
   background: var(--rg-bg-primary);
   color: var(--rg-text);
   font-size: 1em;
-  min-height: 48px;
+  min-height: 36px;
   box-sizing: border-box;
 }
 
@@ -458,8 +458,8 @@
 
 .ronginus-submit-button {
   width: 100%;
-  padding: 16px 24px;
-  font-size: 1.1em;
+  padding: 10px 16px;
+  font-size: 1em;
   font-weight: 600;
   border-radius: 8px;
   margin-top: 8px;
@@ -470,21 +470,21 @@
    ============================================ */
 .ronginus-progress-section {
   background: var(--rg-bg-secondary);
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 32px;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 16px;
 }
 
 .ronginus-status {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .ronginus-phase {
   font-weight: 700;
-  font-size: 1.1em;
+  font-size: 1em;
   color: var(--rg-accent);
 }
 
@@ -495,7 +495,7 @@
 
 .ronginus-stop-button {
   width: 100%;
-  padding: 14px;
+  padding: 10px;
   background: var(--rg-error-bg);
   color: white;
   border: none;
@@ -514,14 +514,14 @@
    ============================================ */
 .ronginus-response-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
 }
 
 .ronginus-response-card {
   background: var(--rg-bg-primary);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 8px;
+  padding: 12px;
   border-left: 5px solid var(--rg-text-muted);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
@@ -543,16 +543,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--rg-border);
 }
 
 .ronginus-cli-badge {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 4px 8px;
   border-radius: 6px;
-  font-size: 0.9em;
+  font-size: 0.8em;
   font-weight: 600;
   color: white;
 }
@@ -566,8 +566,8 @@
 }
 
 .ronginus-cli-badge.large {
-  font-size: 1.2em;
-  padding: 12px 24px;
+  font-size: 1em;
+  padding: 8px 16px;
 }
 
 .ronginus-cli-badge.small {
@@ -590,8 +590,8 @@
   white-space: pre-wrap;
   word-wrap: break-word;
   font-size: 0.95em;
-  line-height: 1.7;
-  max-height: 400px;
+  line-height: 1.6;
+  max-height: 300px;
   overflow-y: auto;
   padding-right: 8px;
   user-select: text;
@@ -619,7 +619,7 @@
 .ronginus-votes-section,
 .ronginus-streaming-section,
 .ronginus-winner-section {
-  margin-bottom: 36px;
+  margin-bottom: 20px;
 }
 
 .ronginus-turns-section h3,
@@ -627,10 +627,10 @@
 .ronginus-votes-section h3,
 .ronginus-streaming-section h3,
 .ronginus-winner-section h3 {
-  margin-bottom: 20px;
-  padding-bottom: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
   border-bottom: 2px solid var(--rg-border);
-  font-size: 1.2em;
+  font-size: 1.05em;
   font-weight: 700;
 }
 
@@ -638,18 +638,18 @@
    Turn Display
    ============================================ */
 .ronginus-turn {
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .ronginus-turn-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 18px;
+  padding: 8px 12px;
   background: var(--rg-bg-secondary);
   border-radius: 8px;
   cursor: pointer;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   transition: background 0.2s;
 }
 
@@ -679,8 +679,8 @@
 .ronginus-vote-item {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 14px 18px;
+  gap: 8px;
+  padding: 8px 12px;
   background: var(--rg-bg-secondary);
   border-radius: 8px;
   flex-wrap: wrap;
@@ -712,8 +712,8 @@
    ============================================ */
 .ronginus-winner-card {
   background: linear-gradient(135deg, var(--rg-bg-secondary) 0%, var(--rg-bg-primary) 100%);
-  border-radius: 12px;
-  padding: 28px;
+  border-radius: 8px;
+  padding: 16px;
   text-align: center;
   border: 3px solid var(--rg-text-muted);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -728,12 +728,12 @@
 }
 
 .ronginus-final-conclusion {
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: left;
   white-space: pre-wrap;
   line-height: 1.7;
   font-size: 1em;
-  padding: 20px;
+  padding: 12px;
   background: var(--rg-bg-primary);
   border-radius: 8px;
   user-select: text;
@@ -753,7 +753,7 @@
 }
 
 .ronginus-error-message {
-  padding: 18px 20px;
+  padding: 10px 14px;
   background: var(--rg-error-bg);
   color: white;
   border-radius: 8px;
@@ -770,19 +770,19 @@
    ============================================ */
 .ronginus-actions-section {
   display: flex;
-  gap: 16px;
-  margin-top: 32px;
-  padding-top: 24px;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 12px;
   border-top: 2px solid var(--rg-border);
 }
 
 .ronginus-save-button,
 .ronginus-reset-button {
   flex: 1;
-  padding: 16px 24px;
+  padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1.05em;
+  font-size: 0.95em;
   font-weight: 600;
   transition: all 0.2s;
 }
@@ -804,8 +804,8 @@
 .ronginus-vote-prompt-note {
   color: var(--rg-text-muted);
   font-size: 0.85em;
-  margin: -8px 0 16px 0;
-  padding: 10px 14px;
+  margin: -6px 0 10px 0;
+  padding: 8px 10px;
   background: var(--rg-bg-secondary);
   border-radius: 6px;
   line-height: 1.4;
@@ -841,7 +841,7 @@
 
 .ronginus-settings-textarea {
   width: 100%;
-  min-height: 120px;
+  min-height: 80px;
   font-family: inherit;
   resize: vertical;
 }

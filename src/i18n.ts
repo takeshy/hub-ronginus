@@ -65,6 +65,7 @@ export interface Translations {
   defaultSystemPrompt: string;
   defaultConclusionPrompt: string;
   defaultVotePrompt: string;
+  saving: string;
   saved: string;
   resetToDefault: string;
 }
@@ -134,6 +135,7 @@ Start your response with "CONCLUSION:" followed by your final answer.`,
   defaultVotePrompt: `You have seen the conclusions from all participants.
 Now you must vote for the BEST conclusion (you can also vote for your own if you believe it's the best).
 Consider clarity, logical reasoning, and completeness.`,
+  saving: "Saving...",
   saved: "Debate saved to Drive",
   resetToDefault: "Reset",
 };
@@ -203,6 +205,7 @@ const ja: Translations = {
   defaultVotePrompt: `全参加者の結論を確認しました。
 最も優れた結論に投票してください（自分の結論が最も優れていると思えば投票可能）。
 明確さ、論理的推論、完全性を考慮してください。`,
+  saving: "保存中...",
   saved: "討論をDriveに保存しました",
   resetToDefault: "初期化",
 };

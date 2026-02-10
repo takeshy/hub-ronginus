@@ -108,6 +108,7 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
 
   // Save notification
   const [saveNotice, setSaveNotice] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   // Engine and resolver refs
   const engineRef = useRef<DebateEngine | null>(null);
@@ -373,8 +374,9 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
 
   // Save to Drive
   const handleSaveToDrive = useCallback(async () => {
-    if (!debateResultRef.current) return;
+    if (!debateResultRef.current || isSaving) return;
 
+    setIsSaving(true);
     try {
       const markdown = DebateEngine.generateMarkdown(debateResultRef.current);
       const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
@@ -386,8 +388,10 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
       setTimeout(() => setSaveNotice(""), 3000);
     } catch (error) {
       console.error("Failed to save debate:", error);
+    } finally {
+      setIsSaving(false);
     }
-  }, [debateState.theme, api.drive, i18n.saved]);
+  }, [debateState.theme, api.drive, i18n.saved, isSaving]);
 
   // Reset debate
   const handleReset = useCallback(() => {
@@ -874,8 +878,8 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
       {(debateState.phase === "complete" || debateState.phase === "error") && (
         <div className="ronginus-actions-section">
           {debateState.phase === "complete" && (
-            <button className="ronginus-save-button mod-cta" onClick={handleSaveToDrive}>
-              {i18n.saveToNote}
+            <button className="ronginus-save-button mod-cta" onClick={handleSaveToDrive} disabled={isSaving}>
+              {isSaving ? i18n.saving : i18n.saveToNote}
             </button>
           )}
           <button className="ronginus-reset-button" onClick={handleReset}>
