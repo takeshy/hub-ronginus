@@ -7,6 +7,7 @@
 
 import { DebatePanel } from "./ui/DebatePanel";
 import { SettingsPanel } from "./ui/SettingsPanel";
+import { adaptPluginAPI } from "./host";
 
 // PluginAPI type (minimal shape expected by the host)
 interface PluginAPI {
@@ -36,7 +37,8 @@ interface PluginAPI {
 }
 
 class RonginusPlugin {
-  onload(api: PluginAPI): void {
+  onload(hostAPI: PluginAPI): void {
+    const api = adaptPluginAPI(hostAPI);
     // Register the debate panel as a sidebar view
     api.registerView({
       id: "ronginus-debate",

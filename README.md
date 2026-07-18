@@ -1,6 +1,6 @@
 # Ronginus - AI Debate Plugin for GemiHub
 
-Ronginus is a [GemiHub](https://github.com/takeshy/gemihub) plugin that enables structured debates between multiple Gemini AI participants with different roles. Participants discuss a given theme across turns, draw conclusions, and vote for the best one.
+Ronginus is a shared [GemiHub](https://github.com/takeshy/gemihub) and GemiHub Desktop plugin that enables structured debates between multiple Gemini AI participants with different roles. Participants discuss a given theme across turns, draw conclusions, and vote for the best one.
 
 ## Features
 
@@ -14,11 +14,13 @@ Ronginus is a [GemiHub](https://github.com/takeshy/gemihub) plugin that enables 
 
 ## Installation
 
-### Via GemiHub Settings
+### Via GemiHub Settings or GemiHub Desktop 0.8.1+
 
 1. Open GemiHub Settings > Plugins tab
 2. Enter `takeshy/hub-ronginus` and click Install
 3. Enable the plugin
+
+Both hosts use the same GitHub Release. GemiHub loads `main.js`; GemiHub Desktop applies the repository-owned `patches/gemihub-desktop.patch` and saves transcripts in the active project.
 
 ### Building from Source
 
@@ -29,7 +31,7 @@ npm install
 npm run build
 ```
 
-This produces `main.js`, `styles.css`, and `manifest.json` for a GitHub Release.
+This produces `main.js`, `styles.css`, `manifest.json`, and `patches/gemihub-desktop.patch` for a GitHub Release.
 
 ## Screenshots
 

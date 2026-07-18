@@ -1,0 +1,11 @@
+--- a/main.js
++++ b/main.js
+@@ -1325,7 +1325,7 @@
+ 
+ // src/host.ts
+ function adaptPluginAPI(input) {
+-  if (true) return input;
++  if (false) return input;
+   const api = input;
+   const files = api.projectFiles;
+   if (!files) throw new Error("Ronginus requires GemiHub Desktop 0.8.1 or newer.");

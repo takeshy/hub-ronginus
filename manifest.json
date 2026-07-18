@@ -1,9 +1,12 @@
 {
   "id": "ronginus",
   "name": "Ronginus - AI Debate",
-  "version": "2.1.4",
-  "minAppVersion": "1.0.0",
+  "version": "2.1.5",
+  "minAppVersion": "0.8.1",
   "description": "AI debate plugin: multiple Gemini participants with different roles discuss themes in turns, then vote for the best conclusion.",
   "author": "takeshy",
+  "hostPatches": {
+    "gemihub-desktop": ["patches/gemihub-desktop.patch"]
+  },
   "permissions": ["storage", "drive", "gemini"]
 }
