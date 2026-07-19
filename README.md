@@ -1,14 +1,15 @@
 # Ronginus - AI Debate Plugin for GemiHub
 
-Ronginus is a shared [GemiHub](https://github.com/takeshy/gemihub) and GemiHub Desktop plugin that enables structured debates between multiple Gemini AI participants with different roles. Participants discuss a given theme across turns, draw conclusions, and vote for the best one.
+Ronginus is a shared [GemiHub](https://github.com/takeshy/gemihub) and GemiHub Desktop plugin that enables structured debates between multiple AI participants with different roles and models. Participants discuss a given theme across turns, draw conclusions, and vote for the best one.
 
 ## Features
 
-- **Role-based Discussion**: Assign roles (e.g. "Affirmative", "Critical") to each participant. The same Gemini model can participate multiple times with different perspectives.
+- **Multi-model Debates**: On GemiHub Desktop, choose a configured OpenAI-compatible, Gemini, Vertex AI, Anthropic, or local-agent model for each participant.
+- **Role-based Discussion**: Assign roles (e.g. "Affirmative", "Critical") to each participant. The same model can participate multiple times with different perspectives.
 - **User Participation**: Join the debate yourself alongside AI participants.
 - **Turn-based Discussion**: Configurable number of turns (1-10). Each participant sees all previous responses before responding.
 - **Conclusion & Voting**: After discussion turns, each participant provides a final conclusion, then all participants vote for the best one.
-- **Drive Export**: Save the complete debate transcript as a Markdown file to Google Drive.
+- **Transcript Export**: Save the complete debate transcript to Google Drive on Web or the active Workspace on Desktop.
 - **Persistent Settings**: System/conclusion/vote prompts are saved per-plugin via the storage API.
 - **i18n**: English and Japanese (auto-detected from browser locale).
 
@@ -20,7 +21,7 @@ Ronginus is a shared [GemiHub](https://github.com/takeshy/gemihub) and GemiHub D
 2. Enter `takeshy/hub-ronginus` and click Install
 3. Enable the plugin
 
-Both hosts use the same GitHub Release. GemiHub loads `main.js`; GemiHub Desktop applies the repository-owned `patches/gemihub-desktop.patch` and saves transcripts in the active project.
+Both hosts use the same GitHub Release. GemiHub loads `main.js`; GemiHub Desktop applies the repository-owned `patches/gemihub-desktop.patch` and saves transcripts in the active Workspace.
 
 ### Building from Source
 
@@ -44,13 +45,13 @@ This produces `main.js`, `styles.css`, `manifest.json`, and `patches/gemihub-des
 1. After installation, the **AI Debate** panel appears in the right sidebar.
 2. Enter a debate theme/topic.
 3. Set the number of turns.
-4. **Add participants** — choose Gemini or User, assign a role (optional).
+4. **Add participants** — choose AI or User and optionally set an AI model and a role. Desktop lists configured models; leaving the model blank uses the host's current model.
 5. Click **Start Debate**.
 6. AI participants generate responses sequentially. If you added yourself as User, you'll be prompted for input.
 7. On the final turn, each participant provides a conclusion.
 8. All participants vote for the best conclusion.
 9. Winner (or draw) is announced.
-10. Click **Save to Drive** to export the transcript.
+10. Click **Save to Drive** on Web or **Save to Workspace** on Desktop to export the transcript.
 
 ## Settings
 
@@ -67,7 +68,8 @@ Expand the **Settings** section on the debate panel to customize:
 This plugin uses the following GemiHub Plugin APIs:
 
 - `api.registerView()` — registers the debate panel as a sidebar view
-- `api.gemini.chat()` — sends messages to Gemini with role-specific system prompts
+- `api.llm.listModels()` (Desktop) — lists providers and models configured in the host
+- `api.llm.chat()` (Desktop) / `api.gemini.chat()` (Web) — sends messages to the participant's selected model with role-specific system prompts
 - `api.drive.createFile()` — saves debate transcripts to Google Drive
 - `api.storage.get/set()` — persists plugin settings
 
@@ -79,7 +81,7 @@ Theme Input + Participant Selection
     v
 +------------------------------------+
 |  Turn 1                            |
-|  Gemini(Role A) -> Gemini(Role B)  |
+|  AI(Model A, Role A) -> AI(Model B, Role B) |
 |  -> User(Role C) -> ...            |
 +------------------------------------+
     | (each sees previous responses)

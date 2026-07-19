@@ -246,6 +246,7 @@
 .ronginus-participant-item {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   padding: 8px 10px;
   background: var(--rg-bg-secondary);
@@ -261,12 +262,31 @@
 
 .ronginus-role-input {
   flex: 1;
+  min-width: 120px;
   padding: 6px 8px;
   border: 1px solid var(--rg-border);
   border-radius: 6px;
   background: var(--rg-bg-primary);
   color: var(--rg-text);
   font-size: 0.85em;
+}
+
+.ronginus-model-input,
+.ronginus-model-select {
+  flex: 1;
+  min-width: 150px;
+  padding: 6px 8px;
+  border: 1px solid var(--rg-border);
+  border-radius: 6px;
+  background: var(--rg-bg-primary);
+  color: var(--rg-text);
+  font-size: 0.85em;
+}
+
+.ronginus-model-input:focus,
+.ronginus-model-select:focus {
+  border-color: var(--rg-accent);
+  outline: none;
 }
 
 .ronginus-role-input:focus {
@@ -573,6 +593,20 @@
 .ronginus-cli-badge.small {
   font-size: 0.8em;
   padding: 4px 10px;
+}
+
+.ronginus-vote-item .ronginus-cli-badge.small {
+  background: #e5e7eb;
+  color: #111827;
+  border: 1px solid #9ca3af;
+  overflow-wrap: anywhere;
+}
+
+.dark .ronginus-vote-item .ronginus-cli-badge.small,
+.ronginus-debate-container.dark .ronginus-vote-item .ronginus-cli-badge.small {
+  background: #374151;
+  color: #f9fafb;
+  border-color: #6b7280;
 }
 
 .ronginus-thinking-indicator {

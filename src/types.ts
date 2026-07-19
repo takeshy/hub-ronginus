@@ -2,7 +2,7 @@
  * Types for Ronginus - AI Debate Plugin (GemiHub)
  */
 
-// Participant types: "gemini" uses the API, "user" provides manual input
+// "gemini" is the shared-host compatibility value for an AI participant.
 export type ParticipantType = "gemini" | "user";
 
 // Debate participant (with role)
@@ -10,7 +10,9 @@ export interface Participant {
   id: string;
   type: ParticipantType;
   role: string;           // e.g. "Affirmative", "Critical"
-  displayName: string;    // e.g. "Gemini（Affirmative）"
+  displayName: string;    // e.g. "gemini-3.5-flash（Affirmative）"
+  model?: string;         // empty/undefined uses the host's selected model
+  modelId?: string;       // host-specific configured model identifier
 }
 
 // Vote participant
@@ -18,6 +20,15 @@ export interface Voter {
   id: string;
   type: ParticipantType;
   displayName: string;
+  model?: string;         // empty/undefined uses the host's selected model
+  modelId?: string;       // host-specific configured model identifier
+}
+
+export interface LLMModelOption {
+  id: string;
+  label: string;
+  provider: string;
+  model: string;
 }
 
 export interface DebateTurn {

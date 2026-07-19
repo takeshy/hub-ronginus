@@ -12,9 +12,11 @@ import type {
   Voter,
   ParticipantType,
   RonginusSettings,
+  LLMModelOption,
 } from "../types";
 import { DebateEngine, UserInputRequest, UserInputResponse } from "../core/debateEngine";
 import { t, Translations } from "../i18n";
+import { desktopActiveModelOptions, isDesktopHost } from "../host";
 
 interface DebatePanelProps {
   api: any;
@@ -25,12 +27,24 @@ interface DebatePanelProps {
 function getBaseDisplayName(type: ParticipantType, i18n: Translations): string {
   switch (type) {
     case "gemini":
-      return "Gemini";
+      return i18n.ai;
     case "user":
       return i18n.user;
     default:
       return type;
   }
+}
+
+function getParticipantDisplayName(
+  type: ParticipantType,
+  model: string,
+  role: string,
+  i18n: Translations
+): string {
+  const baseDisplayName = type === "gemini"
+    ? model.trim() || getBaseDisplayName(type, i18n)
+    : getBaseDisplayName(type, i18n);
+  return role ? `${baseDisplayName}\uFF08${role}\uFF09` : baseDisplayName;
 }
 
 function getPhaseLabel(phase: DebatePhase, i18n: Translations): string {
@@ -61,6 +75,7 @@ const DEFAULT_SETTINGS: RonginusSettings = {
 
 export function DebatePanel({ api, language }: DebatePanelProps): React.ReactElement {
   const i18n = useMemo(() => t(language), [language]);
+  const desktop = isDesktopHost();
 
   // Settings state (read-only, loaded from storage)
   const [settings, setSettings] = useState<RonginusSettings>(() => ({
@@ -77,9 +92,14 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
   const [voteParticipants, setVoteParticipants] = useState<Voter[]>([]);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [newType, setNewType] = useState<ParticipantType>("gemini");
+  const [newModel, setNewModel] = useState("");
+  const [newModelId, setNewModelId] = useState("");
   const [newRole, setNewRole] = useState("");
   const [showAddVoterDialog, setShowAddVoterDialog] = useState(false);
   const [newVoterType, setNewVoterType] = useState<ParticipantType>("gemini");
+  const [newVoterModel, setNewVoterModel] = useState("");
+  const [newVoterModelId, setNewVoterModelId] = useState("");
+  const [modelOptions, setModelOptions] = useState<LLMModelOption[]>([]);
 
   // Debate state
   const [debateState, setDebateState] = useState<DebateState>({
@@ -142,29 +162,54 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
     loadSettings();
   }, [api.storage]);
 
+  // Desktop exposes its configured providers/models. Web hosts fall back to a
+  // free-form Gemini model name and remain fully backward compatible.
+  useEffect(() => {
+    let cancelled = false;
+    const listModels = api.llm?.listModels;
+    if (!listModels) {
+      setModelOptions(desktopActiveModelOptions());
+      return;
+    }
+    void listModels.call(api.llm).then((models: LLMModelOption[]) => {
+      if (!cancelled) setModelOptions(models.length > 0 ? models : desktopActiveModelOptions());
+    }).catch(() => {
+      if (!cancelled) setModelOptions(desktopActiveModelOptions());
+    });
+    return () => { cancelled = true; };
+  }, [api.llm]);
+
   // Add debate participant (also adds a corresponding voter)
   const handleAddParticipant = useCallback(() => {
     const existingCount = debateParticipants.filter((p) => p.type === newType).length;
-    const baseDisplayName = getBaseDisplayName(newType, i18n);
-    const displayName = newRole
-      ? `${baseDisplayName}\uFF08${newRole}\uFF09`
-      : baseDisplayName;
+    const model = newType === "gemini" ? newModel.trim() : "";
+    const displayName = getParticipantDisplayName(newType, model, newRole, i18n);
 
     const newParticipant: Participant = {
       id: `${newType}-${existingCount + 1}-${Date.now()}`,
       type: newType,
       role: newRole || "",
       displayName,
+      model: model || undefined,
+      modelId: newType === "gemini" ? newModelId || undefined : undefined,
     };
 
     setDebateParticipants((prev) => [...prev, newParticipant]);
     setVoteParticipants((prev) => [
       ...prev,
-      { id: `${newParticipant.type}-voter-${newParticipant.id}`, type: newParticipant.type, displayName },
+      {
+        id: `${newParticipant.type}-voter-${newParticipant.id}`,
+        type: newParticipant.type,
+        displayName,
+        model: newParticipant.model,
+        modelId: newParticipant.modelId,
+      },
     ]);
+    setNewModel("");
+    setNewModelId("");
     setNewRole("");
     setShowAddDialog(false);
-  }, [debateParticipants, newType, newRole, i18n]);
+  }, [debateParticipants, newType, newModel, newModelId, newRole, i18n]);
 
   // Remove debate participant (also removes corresponding voter)
   const handleRemoveParticipant = useCallback((id: string) => {
@@ -182,10 +227,7 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
     setDebateParticipants((prev) =>
       prev.map((p) => {
         if (p.id === id) {
-          const baseDisplayName = getBaseDisplayName(p.type, i18n);
-          const displayName = role
-            ? `${baseDisplayName}\uFF08${role}\uFF09`
-            : baseDisplayName;
+          const displayName = getParticipantDisplayName(p.type, p.model || "", role, i18n);
           return { ...p, role, displayName };
         }
         return p;
@@ -194,28 +236,95 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
     const participant = debateParticipants.find((p) => p.id === id);
     if (participant) {
       const voterId = `${participant.type}-voter-${id}`;
-      const baseDisplayName = getBaseDisplayName(participant.type, i18n);
-      const displayName = role
-        ? `${baseDisplayName}\uFF08${role}\uFF09`
-        : baseDisplayName;
+      const displayName = getParticipantDisplayName(
+        participant.type,
+        participant.model || "",
+        role,
+        i18n
+      );
       setVoteParticipants((prev) =>
         prev.map((v) => (v.id === voterId ? { ...v, displayName } : v))
       );
     }
   }, [debateParticipants, i18n]);
 
+  // Update an AI participant's model and its corresponding voter.
+  const handleUpdateModel = useCallback((id: string, model: string, modelId = "") => {
+    setDebateParticipants((prev) =>
+      prev.map((participant) => {
+        if (participant.id !== id) return participant;
+        const normalizedModel = model.trim();
+        return {
+          ...participant,
+          model: normalizedModel || undefined,
+          modelId: modelId || undefined,
+          displayName: getParticipantDisplayName(
+            participant.type,
+            normalizedModel,
+            participant.role,
+            i18n
+          ),
+        };
+      })
+    );
+    const participant = debateParticipants.find((item) => item.id === id);
+    if (participant) {
+      const normalizedModel = model.trim();
+      const voterId = `${participant.type}-voter-${id}`;
+      setVoteParticipants((prev) =>
+        prev.map((voter) => voter.id === voterId ? {
+          ...voter,
+          model: normalizedModel || undefined,
+          modelId: modelId || undefined,
+          displayName: getParticipantDisplayName(
+            participant.type,
+            normalizedModel,
+            participant.role,
+            i18n
+          ),
+        } : voter)
+      );
+    }
+  }, [debateParticipants, i18n]);
+
   // Add vote participant independently
   const handleAddVoter = useCallback(() => {
-    const baseDisplayName = getBaseDisplayName(newVoterType, i18n);
+    const model = newVoterType === "gemini" ? newVoterModel.trim() : "";
+    const displayName = getParticipantDisplayName(newVoterType, model, "", i18n);
     const existingCount = voteParticipants.filter((v) => v.type === newVoterType).length;
     const newVoter: Voter = {
       id: `${newVoterType}-voter-extra-${existingCount + 1}-${Date.now()}`,
       type: newVoterType,
-      displayName: baseDisplayName,
+      displayName,
+      model: model || undefined,
+      modelId: newVoterType === "gemini" ? newVoterModelId || undefined : undefined,
     };
     setVoteParticipants((prev) => [...prev, newVoter]);
+    setNewVoterModel("");
+    setNewVoterModelId("");
     setShowAddVoterDialog(false);
-  }, [newVoterType, voteParticipants, i18n]);
+  }, [newVoterType, newVoterModel, newVoterModelId, voteParticipants, i18n]);
+
+  const handleUpdateVoterModel = useCallback((id: string, model: string, modelId = "") => {
+    setVoteParticipants((prev) => prev.map((voter) => {
+      if (voter.id !== id) return voter;
+      const normalizedModel = model.trim();
+      const linkedParticipant = debateParticipants.find((participant) =>
+        `${participant.type}-voter-${participant.id}` === id
+      );
+      return {
+        ...voter,
+        model: normalizedModel || undefined,
+        modelId: modelId || undefined,
+        displayName: getParticipantDisplayName(
+          voter.type,
+          normalizedModel,
+          linkedParticipant?.role || "",
+          i18n
+        ),
+      };
+    }));
+  }, [debateParticipants, i18n]);
 
   // Remove vote participant
   const handleRemoveVoter = useCallback((id: string) => {
@@ -226,7 +335,7 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
   const handleStartDebate = useCallback(async () => {
     if (!theme.trim() || debateParticipants.length < 1) return;
 
-    const engine = new DebateEngine(api.gemini, settings, language);
+    const engine = new DebateEngine(api.llm || api.gemini, settings, language);
     engineRef.current = engine;
     debateResultRef.current = null;
 
@@ -328,7 +437,7 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
       }
       console.error("Debate failed:", error);
     }
-  }, [theme, turns, debateParticipants, voteParticipants, settings, api.gemini, language]);
+  }, [theme, turns, debateParticipants, voteParticipants, settings, api.llm, api.gemini, language]);
 
   // Stop debate
   const handleStopDebate = useCallback(() => {
@@ -372,8 +481,8 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
     }
   }, [userVoteTarget, userVoteReason]);
 
-  // Save to Drive
-  const handleSaveToDrive = useCallback(async () => {
+  // Save to Drive on Web or the Workspace on Desktop.
+  const handleSave = useCallback(async () => {
     if (!debateResultRef.current || isSaving) return;
 
     setIsSaving(true);
@@ -384,14 +493,14 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
       const fileName = `${timestamp}-${sanitizedTheme}.md`;
 
       await api.drive.createFile(fileName, markdown);
-      setSaveNotice(i18n.saved);
+      setSaveNotice(desktop ? i18n.savedToWorkspace : i18n.saved);
       setTimeout(() => setSaveNotice(""), 3000);
     } catch (error) {
       console.error("Failed to save debate:", error);
     } finally {
       setIsSaving(false);
     }
-  }, [debateState.theme, api.drive, i18n.saved, isSaving]);
+  }, [debateState.theme, api.drive, desktop, i18n.saved, i18n.savedToWorkspace, isSaving]);
 
   // Reset debate
   const handleReset = useCallback(() => {
@@ -505,6 +614,33 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
                     <option value="user">{getBaseDisplayName("user", i18n)}</option>
                   </select>
                 </div>
+                {newType === "gemini" && (
+                  <div className="ronginus-input-group">
+                    <label>{i18n.model}</label>
+                    {modelOptions.length > 0 ? (
+                      <select
+                        value={newModelId}
+                        onChange={(e) => {
+                          const option = modelOptions.find((item) => item.id === e.target.value);
+                          setNewModelId(option?.id || "");
+                          setNewModel(option?.model || "");
+                        }}
+                      >
+                        <option value="">{i18n.hostDefaultModel}</option>
+                        {modelOptions.map((option) => (
+                          <option key={option.id} value={option.id}>{option.label}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        type="text"
+                        value={newModel}
+                        onChange={(e) => setNewModel(e.target.value)}
+                        placeholder={i18n.modelPlaceholder}
+                      />
+                    )}
+                  </div>
+                )}
                 <div className="ronginus-input-group">
                   <label>{i18n.role}</label>
                   <input
@@ -529,6 +665,31 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
                   <span className={`ronginus-cli-badge ${participant.type}`}>
                     {getBaseDisplayName(participant.type, i18n)}
                   </span>
+                  {participant.type === "gemini" && (modelOptions.length > 0 ? (
+                    <select
+                      className="ronginus-model-select"
+                      aria-label={i18n.model}
+                      value={participant.modelId || ""}
+                      onChange={(e) => {
+                        const option = modelOptions.find((item) => item.id === e.target.value);
+                        handleUpdateModel(participant.id, option?.model || "", option?.id || "");
+                      }}
+                    >
+                      <option value="">{i18n.hostDefaultModel}</option>
+                      {modelOptions.map((option) => (
+                        <option key={option.id} value={option.id}>{option.label}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      className="ronginus-model-input"
+                      aria-label={i18n.model}
+                      value={participant.model || ""}
+                      onChange={(e) => handleUpdateModel(participant.id, e.target.value)}
+                      placeholder={i18n.modelPlaceholder}
+                    />
+                  ))}
                   <input
                     type="text"
                     className="ronginus-role-input"
@@ -574,6 +735,33 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
                     <option value="user">{getBaseDisplayName("user", i18n)}</option>
                   </select>
                 </div>
+                {newVoterType === "gemini" && (
+                  <div className="ronginus-input-group">
+                    <label>{i18n.model}</label>
+                    {modelOptions.length > 0 ? (
+                      <select
+                        value={newVoterModelId}
+                        onChange={(e) => {
+                          const option = modelOptions.find((item) => item.id === e.target.value);
+                          setNewVoterModelId(option?.id || "");
+                          setNewVoterModel(option?.model || "");
+                        }}
+                      >
+                        <option value="">{i18n.hostDefaultModel}</option>
+                        {modelOptions.map((option) => (
+                          <option key={option.id} value={option.id}>{option.label}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        type="text"
+                        value={newVoterModel}
+                        onChange={(e) => setNewVoterModel(e.target.value)}
+                        placeholder={i18n.modelPlaceholder}
+                      />
+                    )}
+                  </div>
+                )}
                 <div className="ronginus-dialog-buttons">
                   <button onClick={() => setShowAddVoterDialog(false)}>{i18n.cancel}</button>
                   <button className="mod-cta" onClick={handleAddVoter}>
@@ -589,6 +777,31 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
                   <span className={`ronginus-cli-badge ${voter.type}`}>
                     {voter.displayName}
                   </span>
+                  {voter.type === "gemini" && (modelOptions.length > 0 ? (
+                    <select
+                      className="ronginus-model-select"
+                      aria-label={i18n.model}
+                      value={voter.modelId || ""}
+                      onChange={(e) => {
+                        const option = modelOptions.find((item) => item.id === e.target.value);
+                        handleUpdateVoterModel(voter.id, option?.model || "", option?.id || "");
+                      }}
+                    >
+                      <option value="">{i18n.hostDefaultModel}</option>
+                      {modelOptions.map((option) => (
+                        <option key={option.id} value={option.id}>{option.label}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      className="ronginus-model-input"
+                      aria-label={i18n.model}
+                      value={voter.model || ""}
+                      onChange={(e) => handleUpdateVoterModel(voter.id, e.target.value)}
+                      placeholder={i18n.modelPlaceholder}
+                    />
+                  ))}
                   <button
                     className="ronginus-remove-button"
                     onClick={() => handleRemoveVoter(voter.id)}
@@ -878,8 +1091,8 @@ export function DebatePanel({ api, language }: DebatePanelProps): React.ReactEle
       {(debateState.phase === "complete" || debateState.phase === "error") && (
         <div className="ronginus-actions-section">
           {debateState.phase === "complete" && (
-            <button className="ronginus-save-button mod-cta" onClick={handleSaveToDrive} disabled={isSaving}>
-              {isSaving ? i18n.saving : i18n.saveToNote}
+            <button className="ronginus-save-button mod-cta" onClick={handleSave} disabled={isSaving}>
+              {isSaving ? i18n.saving : desktop ? i18n.saveToWorkspace : i18n.saveToNote}
             </button>
           )}
           <button className="ronginus-reset-button" onClick={handleReset}>

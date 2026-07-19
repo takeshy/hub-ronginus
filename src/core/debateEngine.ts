@@ -1,6 +1,6 @@
 /**
  * Debate Engine for Ronginus (GemiHub)
- * Uses PluginAPI.gemini.chat(this.language) instead of CLI providers
+ * Uses the host LLM chat API, with an optional model per participant.
  */
 
 import type {
@@ -17,10 +17,10 @@ import type {
 import { t } from "../i18n";
 
 // Minimal PluginAPI shape needed by the engine
-interface GeminiAPI {
+interface LLMAPI {
   chat(
     messages: Array<{ role: string; content: string }>,
-    options?: { systemPrompt?: string }
+    options?: { model?: string; modelId?: string; systemPrompt?: string }
   ): Promise<string>;
 }
 
@@ -52,14 +52,14 @@ export interface DebateCallbacks {
 }
 
 export class DebateEngine {
-  private gemini: GeminiAPI;
+  private llm: LLMAPI;
   private settings: RonginusSettings;
   private language?: string;
   private callbacks: DebateCallbacks = {};
   private aborted = false;
 
-  constructor(gemini: GeminiAPI, settings: RonginusSettings, language?: string) {
-    this.gemini = gemini;
+  constructor(llm: LLMAPI, settings: RonginusSettings, language?: string) {
+    this.llm = llm;
     this.settings = settings;
     this.language = language;
   }
@@ -70,6 +70,15 @@ export class DebateEngine {
 
   stop(): void {
     this.aborted = true;
+  }
+
+  private async chat(
+    messages: Array<{ role: string; content: string }>,
+    options: { model?: string; modelId?: string; systemPrompt?: string }
+  ): Promise<string> {
+    const content = await this.llm.chat(messages, options);
+    if (!content?.trim()) throw new Error(t(this.language).emptyModelResponse);
+    return content;
   }
 
   async runDebate(
@@ -190,7 +199,7 @@ export class DebateEngine {
         continue;
       }
 
-      // Gemini participant
+      // AI participant
       let context = baseContext;
       if (participant.role) {
         context += `\n\n${t(this.language).yourPosition}: ${participant.role}`;
@@ -202,9 +211,13 @@ export class DebateEngine {
       }
 
       try {
-        const content = await this.gemini.chat(
+        const content = await this.chat(
           [{ role: "user", content: context }],
-          { systemPrompt }
+          {
+            model: participant.model || undefined,
+            modelId: participant.modelId || undefined,
+            systemPrompt,
+          }
         );
 
         const debateResponse: DebateResponse = {
@@ -228,6 +241,13 @@ export class DebateEngine {
         responses.push(errResponse);
         this.callbacks.onResponseComplete?.(participant.id, errResponse);
       }
+    }
+
+    if (responses.length === 0 || responses.every((response) => response.error)) {
+      const details = responses.map((response) => response.error).filter(Boolean).join("; ");
+      throw new Error(
+        `${t(this.language).allParticipantResponsesFailed}${details ? ` ${details}` : ""}`
+      );
     }
 
     return { turnNumber, responses, timestamp: Date.now() };
@@ -292,9 +312,13 @@ export class DebateEngine {
       }
 
       try {
-        const content = await this.gemini.chat(
+        const content = await this.chat(
           [{ role: "user", content: context }],
-          { systemPrompt }
+          {
+            model: participant.model || undefined,
+            modelId: participant.modelId || undefined,
+            systemPrompt,
+          }
         );
         const conclusion: DebateConclusion = {
           participantId: participant.id,
@@ -339,6 +363,7 @@ export class DebateEngine {
     voters: Voter[]
   ): Promise<VoteResult[]> {
     const votes: VoteResult[] = [];
+    let successfulVotes = 0;
     const context = this.buildVotingContext(theme, conclusions);
 
     for (const voter of voters) {
@@ -365,18 +390,24 @@ export class DebateEngine {
             reason: response.reason,
           };
           votes.push(vote);
+          successfulVotes += 1;
           this.callbacks.onVoteComplete?.(vote);
         }
         continue;
       }
 
       try {
-        const content = await this.gemini.chat(
+        const content = await this.chat(
           [{ role: "user", content: context }],
-          { systemPrompt: this.settings.systemPrompt }
+          {
+            model: voter.model || undefined,
+            modelId: voter.modelId || undefined,
+            systemPrompt: this.settings.systemPrompt,
+          }
         );
         const vote = this.parseVote(voter, content, conclusions);
         votes.push(vote);
+        successfulVotes += 1;
         this.callbacks.onVoteComplete?.(vote);
       } catch (error) {
         votes.push({
@@ -387,6 +418,10 @@ export class DebateEngine {
           reason: `Error: ${(error as Error).message}`,
         });
       }
+    }
+
+    if (voters.length > 0 && successfulVotes === 0) {
+      throw new Error(t(this.language).allVotesFailed);
     }
 
     return votes;

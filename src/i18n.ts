@@ -13,6 +13,7 @@ export interface Translations {
   startDebate: string;
   stopDebate: string;
   saveToNote: string;
+  saveToWorkspace: string;
   newDebate: string;
   theme: string;
   turn: string;
@@ -40,6 +41,13 @@ export interface Translations {
   rolePlaceholder: string;
   user: string;
   gemini: string;
+  ai: string;
+  model: string;
+  modelPlaceholder: string;
+  hostDefaultModel: string;
+  emptyModelResponse: string;
+  allParticipantResponsesFailed: string;
+  allVotesFailed: string;
   yourTurn: string;
   yourRole: string;
   submitResponse: string;
@@ -67,6 +75,7 @@ export interface Translations {
   defaultVotePrompt: string;
   saving: string;
   saved: string;
+  savedToWorkspace: string;
   resetToDefault: string;
 }
 
@@ -79,6 +88,7 @@ const en: Translations = {
   startDebate: "Start Debate",
   stopDebate: "Stop",
   saveToNote: "Save to Drive",
+  saveToWorkspace: "Save to Workspace",
   newDebate: "New Debate",
   theme: "Theme",
   turn: "Turn",
@@ -106,6 +116,13 @@ const en: Translations = {
   rolePlaceholder: "e.g. Affirmative, Critical...",
   user: "User",
   gemini: "Gemini",
+  ai: "AI",
+  model: "Model",
+  modelPlaceholder: "Model name (blank: host default)",
+  hostDefaultModel: "Host default",
+  emptyModelResponse: "The selected model returned an empty response.",
+  allParticipantResponsesFailed: "All AI participants failed to respond.",
+  allVotesFailed: "All AI voters failed to respond.",
   yourTurn: "Your Turn",
   yourRole: "Your role",
   submitResponse: "Submit",
@@ -137,6 +154,7 @@ Now you must vote for the BEST conclusion (you can also vote for your own if you
 Consider clarity, logical reasoning, and completeness.`,
   saving: "Saving...",
   saved: "Debate saved to Drive",
+  savedToWorkspace: "Debate saved to Workspace",
   resetToDefault: "Reset",
 };
 
@@ -149,6 +167,7 @@ const ja: Translations = {
   startDebate: "討論開始",
   stopDebate: "停止",
   saveToNote: "Driveに保存",
+  saveToWorkspace: "Workspaceに保存",
   newDebate: "新規討論",
   theme: "テーマ",
   turn: "ターン",
@@ -176,6 +195,13 @@ const ja: Translations = {
   rolePlaceholder: "例: 肯定派、批判派...",
   user: "ユーザー",
   gemini: "Gemini",
+  ai: "AI",
+  model: "モデル",
+  modelPlaceholder: "モデル名（空欄: ホストの既定値）",
+  hostDefaultModel: "ホストの既定値",
+  emptyModelResponse: "選択したモデルから空の回答が返されました。",
+  allParticipantResponsesFailed: "すべてのAI参加者が回答に失敗しました。",
+  allVotesFailed: "すべてのAI投票者が回答に失敗しました。",
   yourTurn: "あなたの番です",
   yourRole: "あなたの役割",
   submitResponse: "送信",
@@ -207,6 +233,7 @@ const ja: Translations = {
 明確さ、論理的推論、完全性を考慮してください。`,
   saving: "保存中...",
   saved: "討論をDriveに保存しました",
+  savedToWorkspace: "討論をWorkspaceに保存しました",
   resetToDefault: "初期化",
 };
 

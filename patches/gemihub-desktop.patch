@@ -1,11 +1,24 @@
 --- a/main.js
 +++ b/main.js
-@@ -1325,7 +1325,7 @@
+@@ -692,7 +692,7 @@
  
  // src/host.ts
+ function desktopActiveModelOptions() {
+-  if (true) return [];
++  if (typeof localStorage === "undefined") return [];
+   try {
+     const raw = localStorage.getItem("gemihub-desktop:chat-settings") || localStorage.getItem("llm-hub:chat-settings");
+     if (!raw) return [];
+@@ -723,10 +723,10 @@
+   }
+ }
+ function isDesktopHost() {
+-  return false;
++  return true;
+ }
  function adaptPluginAPI(input) {
 -  if (true) return input;
 +  if (false) return input;
    const api = input;
-   const files = api.projectFiles;
+   const files = api.files;
    if (!files) throw new Error("Ronginus requires GemiHub Desktop 0.8.1 or newer.");

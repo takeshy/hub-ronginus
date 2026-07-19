@@ -1,7 +1,7 @@
 /**
  * Ronginus - AI Debate Plugin for GemiHub
  *
- * Multiple Gemini participants with different roles discuss a theme
+ * Multiple AI participants with different roles and models discuss a theme
  * in multiple turns, draw conclusions, and vote for the best.
  */
 
@@ -21,7 +21,14 @@ interface PluginAPI {
   registerSettingsTab(tab: {
     component: unknown;
   }): void;
-  gemini: {
+  llm?: {
+    listModels?(): Promise<Array<{ id: string; label: string; provider: string; model: string }>>;
+    chat(
+      messages: Array<{ role: string; content: string }>,
+      options?: { model?: string; modelId?: string; systemPrompt?: string }
+    ): Promise<string>;
+  };
+  gemini?: {
     chat(
       messages: Array<{ role: string; content: string }>,
       options?: { model?: string; systemPrompt?: string }
@@ -39,6 +46,9 @@ interface PluginAPI {
 class RonginusPlugin {
   onload(hostAPI: PluginAPI): void {
     const api = adaptPluginAPI(hostAPI);
+    if (!api.llm && !api.gemini) {
+      throw new Error("Ronginus requires an LLM chat API.");
+    }
     // Register the debate panel as a sidebar view
     api.registerView({
       id: "ronginus-debate",

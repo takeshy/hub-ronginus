@@ -1,7 +1,7 @@
 {
   "name": "ronginus",
-  "version": "2.1.5",
-  "description": "AI Debate Plugin for GemiHub - role-based multi-participant debates via Gemini API",
+  "version": "2.1.6",
+  "description": "AI Debate Plugin for GemiHub - role-based, multi-model participant debates",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
