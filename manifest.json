@@ -1,7 +1,7 @@
 {
   "id": "ronginus",
   "name": "Ronginus - AI Debate",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "minAppVersion": "0.8.1",
   "description": "AI debate plugin: participants with different models and roles discuss themes in turns, then vote for the best conclusion.",
   "author": "takeshy",
