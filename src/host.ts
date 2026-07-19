@@ -7,7 +7,7 @@ interface DesktopWorkspaceFiles {
 }
 
 interface DesktopPluginAPI {
-  files?: DesktopWorkspaceFiles;
+  workspaceFiles?: DesktopWorkspaceFiles;
   [key: string]: unknown;
 }
 
@@ -74,7 +74,7 @@ export function isDesktopHost(): boolean {
 export function adaptPluginAPI<T>(input: T): T {
   if (!__GEMIHUB_DESKTOP__) return input;
   const api = input as T & DesktopPluginAPI;
-  const files = api.files;
+  const files = api.workspaceFiles;
   if (!files) throw new Error("Ronginus requires GemiHub Desktop 0.8.1 or newer.");
   return Object.assign(api, {
     drive: {

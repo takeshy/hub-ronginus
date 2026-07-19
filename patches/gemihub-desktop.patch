@@ -20,5 +20,5 @@
 -  if (true) return input;
 +  if (false) return input;
    const api = input;
-   const files = api.files;
+   const files = api.workspaceFiles;
    if (!files) throw new Error("Ronginus requires GemiHub Desktop 0.8.1 or newer.");
